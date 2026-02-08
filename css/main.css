@@ -1385,7 +1385,7 @@ pre code {
     vertical-align: middle;
   }
   .links-of-author a::before {
-    background: #4bafb8;
+    background: #85e3d9;
     display: inline-block;
     margin-right: 3px;
     transform: translateY(-2px);
@@ -2907,4 +2907,19 @@ header.header {
   .comments {
     padding: 10px 12px;
   }
+}
+body {
+  background: url("/images/bg.png");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: 50% 50%;
+  opacity: 0.85;
+}
+.sidebar {
+  background-color: transparent;
+  opacity: 0.9;
+}
+.header-inner {
+  background: rgba(255,255,255,0.8);
 }
