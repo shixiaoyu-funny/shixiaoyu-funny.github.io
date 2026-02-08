@@ -410,5 +410,12 @@
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
 </noscript>
 
+
+  <!-- 鼠标点击烟花特效（放到bodyEnd下方、</body>上方） -->
+  <canvas id="fireworks" style="position:fixed;top:0;left:0;z-index:99999;pointer-events:none;"></canvas>
+  <script>
+  !function(){function t(t){this.x=t.x,this.y=t.y,this.vx=Math.random()*4-2,this.vy=Math.random()*4-2,this.alpha=1,this.decay=Math.random()*.01+.005,this.color=t.color}t.prototype.update=function(){this.x+=this.vx,this.y+=this.vy,this.alpha-=this.decay},t.prototype.render=function(t){t.save(),t.globalAlpha=this.alpha,t.beginPath(),t.arc(this.x,this.y,2,0,2*Math.PI,!1),t.fillStyle=this.color,t.fill(),t.restore()},function(){function i(){t.width=window.innerWidth,t.height=window.innerHeight}function e(){for(var i=0;i<o.length;i++){var e=o[i];e.update(),e.alpha<=0&&o.splice(i,1)}a()}function a(){n.clearRect(0,0,t.width,t.height);for(var i=0;i<o.length;i++)o[i].render(n);requestAnimationFrame(e)}var t=document.getElementById("fireworks"),n=t.getContext("2d"),o=[];i(),window.addEventListener("resize",i),window.addEventListener("click",function(i){var e=20+Math.floor(Math.random()*10);for(var a=0;a<<e;a++){var r={x:i.clientX,y:i.clientY,color:"rgb("+~~(255*Math.random())+","+~~(255*Math.random())+","+~~(255*Math.random())+")"};o.push(new t(r))}}),requestAnimationFrame(e)}()}();
+  </script>
+
 <script src="/live2d_models/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2d_models/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2d_models/assets/hibiki.model.json"},"display":{"position":"right","width":100,"height":200},"log":false,"tagMode":false});</script></body>
 </html>
