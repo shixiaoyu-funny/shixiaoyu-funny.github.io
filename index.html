@@ -139,7 +139,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-count">2</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -148,7 +148,7 @@
         <span class="site-state-item-name">分类</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
@@ -165,6 +165,104 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2026/02/23/Redis%E4%B8%BB%E4%BB%8E%E5%8E%9F%E7%90%86%E5%8F%8A%E5%93%A8%E5%85%B5%E6%90%AD%E5%BB%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://shixiaoyu-funny.oss-cn-beijing.aliyuncs.com/post-files/d8213171f9a6426f8b0702857f3663d8_0.png">
+      <meta itemprop="name" content="shixiaoyu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JavaLearning">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | JavaLearning">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2026/02/23/Redis%E4%B8%BB%E4%BB%8E%E5%8E%9F%E7%90%86%E5%8F%8A%E5%93%A8%E5%85%B5%E6%90%AD%E5%BB%BA/" class="post-title-link" itemprop="url">Redis主从原理及哨兵搭建</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-02-23 15:02:26 / 修改时间：15:25:15" itemprop="dateCreated datePublished" datetime="2026-02-23T15:02:26+08:00">2026-02-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/JavaWeb%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">JavaWeb学习</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="Redis持久化配置"><a href="#Redis持久化配置" class="headerlink" title="Redis持久化配置"></a>Redis持久化配置</h1><h2 id="一、RDB持久化"><a href="#一、RDB持久化" class="headerlink" title="一、RDB持久化"></a>一、RDB持久化</h2><h3 id="1-1-什么是RDB？"><a href="#1-1-什么是RDB？" class="headerlink" title="1.1 什么是RDB？"></a>1.1 什么是RDB？</h3><p>RDB即redis数据备份文件，又叫做redis数据快照。当redis挂掉之后，可以利用该文件快速回复数据</p>
+<h3 id="1-2-触发RDB的时机"><a href="#1-2-触发RDB的时机" class="headerlink" title="1.2 触发RDB的时机"></a>1.2 触发RDB的时机</h3><p>Redis内部有触发RDB的机制，在redis停机的一刻，会自动保存当前数据的快照，保存到指定文件dump.rdb文件中（ps：该文件可以自己改名，但并不建议，容易导致数据丢失）；在redis服务重启的时候，redis又会重新读取rdb文件中的数据</p>
+<h3 id="1-3-保存RDB的形式"><a href="#1-3-保存RDB的形式" class="headerlink" title="1.3 保存RDB的形式"></a>1.3 保存RDB的形式</h3><p>保存数据时，有两种形式：save和bgsave，其中,save会占用主线程进行rdb保存，bgsave会fork一个新的线程进行保存</p>
+<h3 id="1-4-RDB相关配置"><a href="#1-4-RDB相关配置" class="headerlink" title="1.4 RDB相关配置"></a>1.4 RDB相关配置</h3><ol>
+<li>修改触发rdb的时间与次数：<code>save x y</code>，即在x秒内有y个键被修改，则执行一次bgsave</li>
+<li>压缩配置：<code>rdbcompression yes</code>，但是不建议开启，会对磁盘造成一定压力</li>
+<li>rdb的文件名称：<code>dbfilename xxx.rdb</code></li>
+<li>文件保存路径：<code>dir /xxx/xxx</code>（自定义）</li>
+</ol>
+<h3 id="1-5-RDB的bgsave的流程"><a href="#1-5-RDB的bgsave的流程" class="headerlink" title="1.5 RDB的bgsave的流程"></a>1.5 RDB的bgsave的流程</h3><ol>
+<li>fork主进程得到一个子进程，共享内存空间</li>
+<li>利用子进程读取数据从保存到rdb文件中</li>
+<li>替换旧的rdb文件</li>
+</ol>
+<h3 id="1-6-RDB的缺点"><a href="#1-6-RDB的缺点" class="headerlink" title="1.6 RDB的缺点"></a>1.6 RDB的缺点</h3><ol>
+<li>RDB间隔时间长 </li>
+<li>具有数据丢失的风险</li>
+</ol>
+<h2 id="二、AOF持久化"><a href="#二、AOF持久化" class="headerlink" title="二、AOF持久化"></a>二、AOF持久化</h2><h3 id="2-1-什么是AOF"><a href="#2-1-什么是AOF" class="headerlink" title="2.1 什么是AOF"></a>2.1 什么是AOF</h3><p>AOF全称数据追加文件<br>它不会把数据直接进行保存在文件中，而是会把执行过的命令保存到指定aof文件中，如图：<br>![[Pasted image 20260223152240.png]]</p>
+<p>当redis重启恢复数据的时候，就会读取aof文件中的命令并依次执行，进而达到恢复数据的目的</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -210,7 +308,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-02-08 16:24:49" itemprop="dateModified" datetime="2026-02-08T16:24:49+08:00">2026-02-08</time>
+      <time title="修改时间：2026-02-23 15:03:11" itemprop="dateModified" datetime="2026-02-23T15:03:11+08:00">2026-02-23</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -218,7 +316,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">Java学习</span></a>
+          <a href="/categories/JavaWeb%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">JavaWeb学习</span></a>
         </span>
     </span>
 
