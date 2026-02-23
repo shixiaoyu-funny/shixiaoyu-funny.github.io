@@ -204,7 +204,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2026-02-23 15:44:48 / 修改时间：15:45:43" itemprop="dateCreated datePublished" datetime="2026-02-23T15:44:48+08:00">2026-02-23</time>
+      <time title="创建时间：2026-02-23 15:44:48 / 修改时间：15:49:42" itemprop="dateCreated datePublished" datetime="2026-02-23T15:44:48+08:00">2026-02-23</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -244,7 +244,7 @@
 <li>RDB间隔时间长 </li>
 <li>具有数据丢失的风险</li>
 </ol>
-<h2 id="二、AOF持久化"><a href="#二、AOF持久化" class="headerlink" title="二、AOF持久化"></a>二、AOF持久化</h2><h3 id="2-1-什么是AOF"><a href="#2-1-什么是AOF" class="headerlink" title="2.1 什么是AOF"></a>2.1 什么是AOF</h3><p>AOF全称数据追加文件<br>它不会把数据直接进行保存在文件中，而是会把执行过的命令保存到指定aof文件中，如图：<br>![[Pasted image 20260223154542.png]]<br>当redis重启恢复数据的时候，就会读取aof文件中的命令并依次执行，进而达到恢复数据的目的</p>
+<h2 id="二、AOF持久化"><a href="#二、AOF持久化" class="headerlink" title="二、AOF持久化"></a>二、AOF持久化</h2><h3 id="2-1-什么是AOF"><a href="#2-1-什么是AOF" class="headerlink" title="2.1 什么是AOF"></a>2.1 什么是AOF</h3><p>AOF全称数据追加文件<br>它不会把数据直接进行保存在文件中，而是会把执行过的命令保存到指定aof文件中，如图：<br>![[pg1.png]]<br>当redis重启恢复数据的时候，就会读取aof文件中的命令并依次执行，进而达到恢复数据的目的</p>
 
       
     </div>
