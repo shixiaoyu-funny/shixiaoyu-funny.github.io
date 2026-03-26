@@ -202,9 +202,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2026-02-23 15:44:48 / 修改时间：17:17:25" itemprop="dateCreated datePublished" datetime="2026-02-23T15:44:48+08:00">2026-02-23</time>
+      <time title="创建时间：2026-02-23 15:44:48" itemprop="dateCreated datePublished" datetime="2026-02-23T15:44:48+08:00">2026-02-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-03-26 09:13:53" itemprop="dateModified" datetime="2026-03-26T09:13:53+08:00">2026-03-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -226,9 +232,10 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="Redis持久化配置"><a href="#Redis持久化配置" class="headerlink" title="Redis持久化配置"></a>Redis持久化配置</h1><h2 id="一、RDB持久化"><a href="#一、RDB持久化" class="headerlink" title="一、RDB持久化"></a>一、RDB持久化</h2><h3 id="1-1-什么是RDB？"><a href="#1-1-什么是RDB？" class="headerlink" title="1.1 什么是RDB？"></a>1.1 什么是RDB？</h3><p>RDB即redis数据备份文件，又叫做redis数据快照。当redis挂掉之后，可以利用该文件快速回复数据</p>
-<h3 id="1-2-触发RDB的时机"><a href="#1-2-触发RDB的时机" class="headerlink" title="1.2 触发RDB的时机"></a>1.2 触发RDB的时机</h3><p>Redis内部有触发RDB的机制，在redis停机的一刻，会自动保存当前数据的快照，保存到指定文件dump.rdb文件中（ps：该文件可以自己改名，但并不建议，容易导致数据丢失）；在redis服务重启的时候，redis又会重新读取rdb文件中的数据</p>
-<h3 id="1-3-保存RDB的形式"><a href="#1-3-保存RDB的形式" class="headerlink" title="1.3 保存RDB的形式"></a>1.3 保存RDB的形式</h3><p>保存数据时，有两种形式：save和bgsave，其中,save会占用主线程进行rdb保存，bgsave会fork一个新的线程进行保存</p>
+          <h3 id="本文的专业术语的通俗解释"><a href="#本文的专业术语的通俗解释" class="headerlink" title="本文的专业术语的通俗解释"></a>本文的专业术语的通俗解释</h3><p>fsync：是操作系统的<strong>强制落盘指令</strong>，正常情况下，数据需要先暂存到缓冲区再写入磁盘，fsync可以<strong>把数据强制写入磁盘中</strong><br>fork：作为<strong>操作系统的一个分身术</strong>，主进程fork后，会复制出一个与自身一模一样的子线程，然后它会把持久化的脏活累活全交给<strong>子进程</strong>做，主线程安心接收和处理用户的请求</p>
+<h1 id="Redis持久化配置"><a href="#Redis持久化配置" class="headerlink" title="Redis持久化配置"></a>Redis持久化配置</h1><h2 id="一、RDB持久化"><a href="#一、RDB持久化" class="headerlink" title="一、RDB持久化"></a>一、RDB持久化</h2><h3 id="1-1-什么是RDB？"><a href="#1-1-什么是RDB？" class="headerlink" title="1.1 什么是RDB？"></a>1.1 什么是RDB？</h3><p>RDB即<strong>redis数据备份文件</strong>，又叫做redis数据快照。当redis挂掉之后，可以利用该文件快速回复数据</p>
+<h3 id="1-2-触发RDB的时机"><a href="#1-2-触发RDB的时机" class="headerlink" title="1.2 触发RDB的时机"></a>1.2 触发RDB的时机</h3><p>Redis内部有触发RDB的机制，在redis停机的一刻，会自动保存当前数据的快照，保存到指定文件<strong>dump.rdb</strong>文件中（ps：该文件可以自己改名，但并不建议，容易导致数据丢失）；在redis服务重启的时候，redis又会重新读取rdb文件中的数据</p>
+<h3 id="1-3-保存RDB的形式"><a href="#1-3-保存RDB的形式" class="headerlink" title="1.3 保存RDB的形式"></a>1.3 保存RDB的形式</h3><p>保存数据时，有两种形式：<strong>save和bgsave</strong>，其中，save会占用主线程进行rdb保存，bgsave会fork一个新的线程进行保存</p>
 <h3 id="1-4-RDB相关配置"><a href="#1-4-RDB相关配置" class="headerlink" title="1.4 RDB相关配置"></a>1.4 RDB相关配置</h3><ol>
 <li>修改触发rdb的时间与次数：<code>save x y</code>，即在x秒内有y个键被修改，则执行一次bgsave</li>
 <li>压缩配置：<code>rdbcompression yes</code>，但是不建议开启，会对磁盘造成一定压力</li>
@@ -244,7 +251,10 @@
 <li>RDB间隔时间长 </li>
 <li>具有数据丢失的风险</li>
 </ol>
-<h2 id="二、AOF持久化"><a href="#二、AOF持久化" class="headerlink" title="二、AOF持久化"></a>二、AOF持久化</h2><h3 id="2-1-什么是AOF"><a href="#2-1-什么是AOF" class="headerlink" title="2.1 什么是AOF"></a>2.1 什么是AOF</h3><p>AOF全称数据追加文件<br>它不会把数据直接进行保存在文件中，而是会把执行过的命令保存到指定aof文件中，如图：<br><img src="/2026/02/23/Redis-%E4%B8%BB%E4%BB%8E%E5%8E%9F%E7%90%86%E5%8F%8A%E5%93%A8%E5%85%B5%E6%90%AD%E5%BB%BA/file-20260223171725406.png"><br>当redis重启恢复数据的时候，就会读取aof文件中的命令并依次执行，进而达到恢复数据的目的</p>
+<h2 id="二、AOF持久化"><a href="#二、AOF持久化" class="headerlink" title="二、AOF持久化"></a>二、AOF持久化</h2><h3 id="2-1-什么是AOF"><a href="#2-1-什么是AOF" class="headerlink" title="2.1 什么是AOF"></a>2.1 什么是AOF</h3><p>AOF全称数据追加文件<br>它不会把数据直接进行保存在文件中，而是会把执行过的命令保存到指定aof文件中，如图：<br><img src="/file-20260326091111252.png"><br>当redis重启恢复数据的时候，就会读取aof文件中的命令并依次执行，进而达到恢复数据的目的</p>
+<p>但是，由于<strong>AOF记录的是大量的指令，而RDB记录的是二进制数据</strong>。同时，在加载方面，RDB中的二进制数据可以一步到位，直接加载到内存中，但是，AOF中的命令却需要一条条来执行，在数据量、操作量总量较大的时候，需要的<strong>时间会成倍增加。</strong></p>
+<p>为了解决这个问题，AOF提供了一套解决方案：AOF文件重写</p>
+<h3 id="2-2-优化方法——自动重写AOF文件"><a href="#2-2-优化方法——自动重写AOF文件" class="headerlink" title="2.2 优化方法——自动重写AOF文件"></a>2.2 优化方法——自动重写AOF文件</h3><p>因为AOF是对命令的记录，所以其实在最后一次命令执行前的大量的命令意义并不大，甚至可以说是毫无意义的。Redis会通过执行bgrewriteaof命令，对命令内容进行重写，删减大量无效命令，用最少的命令达到相同的效果<br><img src="/file-20260326091323983.png"></p>
 
       
     </div>
@@ -307,7 +317,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-02-23 15:03:11" itemprop="dateModified" datetime="2026-02-23T15:03:11+08:00">2026-02-23</time>
+      <time title="修改时间：2026-03-26 08:12:26" itemprop="dateModified" datetime="2026-03-26T08:12:26+08:00">2026-03-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -329,7 +339,8 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="微服务的拆分与治理：从思想到落地"><a href="#微服务的拆分与治理：从思想到落地" class="headerlink" title="微服务的拆分与治理：从思想到落地"></a>微服务的拆分与治理：从思想到落地</h1><h2 id="一、微服务核心思想"><a href="#一、微服务核心思想" class="headerlink" title="一、微服务核心思想"></a>一、微服务核心思想</h2><h3 id="1-1-什么是微服务"><a href="#1-1-什么是微服务" class="headerlink" title="1.1 什么是微服务"></a>1.1 什么是微服务</h3><p>微服务架构，是服务化指导思想下的一套最佳实践架构方案。<br>微服务化，就是把这个单体项目拆分为多个独立的项目</p>
+          <h2 id="前言：哈喽，各位-CSDN-的技术伙伴们～👋"><a href="#前言：哈喽，各位-CSDN-的技术伙伴们～👋" class="headerlink" title="前言：哈喽，各位 CSDN 的技术伙伴们～👋"></a>前言：哈喽，各位 CSDN 的技术伙伴们～👋</h2><p>最近博主在学习微服务相关内容，踩了不少拆分和治理的坑，也整理了一套从核心思想到落地实操的完整流程。不管你是刚接触微服务的新手，还是正在项目中面临拆分难题的开发者，这篇文章都会从「是什么 - 为什么 - 怎么做」三个维度，把微服务的拆分逻辑、工程结构、服务注册发现等关键知识点讲透，还附带 Nacos、OpenFeign 的具体配置代码，直接复制就能用！话不多说，咱们正文开始～</p>
+<h1 id="微服务的拆分与治理：从思想到落地"><a href="#微服务的拆分与治理：从思想到落地" class="headerlink" title="微服务的拆分与治理：从思想到落地"></a>微服务的拆分与治理：从思想到落地</h1><h2 id="一、微服务核心思想"><a href="#一、微服务核心思想" class="headerlink" title="一、微服务核心思想"></a>一、微服务核心思想</h2><h3 id="1-1-什么是微服务"><a href="#1-1-什么是微服务" class="headerlink" title="1.1 什么是微服务"></a>1.1 什么是微服务</h3><p>微服务架构，是服务化指导思想下的一套最佳实践架构方案。<br>微服务化，就是把这个单体项目拆分为多个独立的项目</p>
 <h3 id="1-2-使用微服务的好处"><a href="#1-2-使用微服务的好处" class="headerlink" title="1.2 使用微服务的好处"></a>1.2 使用微服务的好处</h3><p>粒度小：每个模块仅负责自己单独的功能（登录功能、用户管理功能）<br>团队自治：每个模块都会有一个几人或十几人的小团队去管理<br>服务自治：测试以及部署的时候每个模块可以单独部署，拥有自己的数据库</p>
 <p>使用微服务，可以极大地优化项目打包构建时间，还可以有效减轻数据库的访问压力</p>
 <h2 id="二、服务拆分"><a href="#二、服务拆分" class="headerlink" title="二、服务拆分"></a>二、服务拆分</h2><h3 id="2-1-SpringCloud官网"><a href="#2-1-SpringCloud官网" class="headerlink" title="2.1 SpringCloud官网"></a>2.1 SpringCloud官网</h3><p>Spring Cloud 官方网站为：<strong><a target="_blank" rel="noopener" href="https://spring.io/projects/spring-cloud">https://spring.io/projects/spring-cloud</a></strong>。<br>注：springboot3.0.x以上需要使用2022.0.x的版本</p>
@@ -434,6 +445,9 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FeignClient(value = &quot;item-service&quot;, configuration = DefaultFeignConfig.class)</span></span><br></pre></td></tr></table></figure>
 <p>全局（加@Configuration）：<br>无需声明，全局生效<br>3. 配置yml文件中的logging部分：</p>
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># yml配置（推荐）</span></span><br><span class="line"><span class="attr">logging:</span></span><br><span class="line">  <span class="attr">level:</span></span><br><span class="line">    <span class="comment"># 格式：logging.level.【Feign客户端接口的全类名】= debug</span></span><br><span class="line">    <span class="attr">com.xxx.feign.UserFeignClient:</span> <span class="string">debug</span> <span class="comment"># 局部生效：仅指定接口打印日志</span></span><br><span class="line">    <span class="comment"># 或全局生效：匹配所有Feign客户端（包路径根据自己项目调整）</span></span><br><span class="line">    <span class="attr">com.xxx.feign:</span> <span class="string">debug</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="结尾：技术交流与总结"><a href="#结尾：技术交流与总结" class="headerlink" title="结尾：技术交流与总结"></a>结尾：技术交流与总结</h3><p>以上就是微服务拆分与治理的核心内容啦！从思想到落地，每一步都附了实操代码，希望能帮大家少走弯路～ 如果在实操过程中遇到 Nacos 启动失败、Feign 调用超时、依赖冲突等问题，或者有更好的拆分思路，欢迎在评论区留言交流！🙌</p>
+<p>觉得文章有用的话，别忘了点赞 + 收藏 + 关注呀，后续还会更新微服务、JVM、多线程等更多内容，咱们下期见～</p>
 
       
     </div>
